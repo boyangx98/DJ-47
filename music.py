@@ -49,6 +49,10 @@ class Player(commands.Cog):
         ctx.voice_client.source.volume = 0.5
 
     @commands.command()
+    async def menu(self, ctx):
+        return await ctx.send("Commands: ! + join/leave/search/play/pause/resume/skip/queue")
+
+    @commands.command()
     async def join(self, ctx):
         if ctx.author.voice is None:
             return await ctx.send("You are not connected to a voice channel, please connect to the channel you want the bot to join.")
@@ -119,7 +123,7 @@ class Player(commands.Cog):
 
     @commands.command()
     async def queue(self, ctx):  # display the current guilds queue
-        if len(self.song_queue[ctx.guild.id]) == 0:
+        if not self.song_queue:
             return await ctx.send("There are currently no songs in the queue.")
 
         embed = discord.Embed(
@@ -148,7 +152,7 @@ class Player(commands.Cog):
                              description="**80% of the voice channel must vote to skip for it to pass.**", colour=discord.Colour.blue())
         poll.add_field(name="Skip", value=":white_check_mark:")
         poll.add_field(name="Stay", value=":no_entry_sign:")
-        poll.set_footer(text="Voting ends in 15 seconds.")
+        poll.set_footer(text="Voting ends in 10 seconds.")
 
         # only returns temporary message, we need to get the cached message to get the reactions
         poll_msg = await ctx.send(embed=poll)
@@ -157,7 +161,7 @@ class Player(commands.Cog):
         await poll_msg.add_reaction(u"\u2705")  # yes
         await poll_msg.add_reaction(u"\U0001F6AB")  # no
 
-        await asyncio.sleep(15)  # 15 seconds to vote
+        await asyncio.sleep(10)  # 15 seconds to vote
 
         poll_msg = await ctx.channel.fetch_message(poll_id)
 
@@ -218,3 +222,4 @@ async def setup():
     bot.add_cog(Player(bot))
 
 bot.loop.create_task(setup())
+bot.run('OTMwNDg5MjUyODA5MTU0NjIz.Yd2npQ.5rQI0XYszA55p3AjLnm6yEW7tTs')
