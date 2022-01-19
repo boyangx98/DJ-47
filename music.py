@@ -221,5 +221,4 @@ async def setup():
     await bot.wait_until_ready()
     bot.add_cog(Player(bot))
 
-bot.loop.create_task(setup())
-bot.run('OTMwNDg5MjUyODA5MTU0NjIz.Yd2npQ.5rQI0XYszA55p3AjLnm6yEW7tTs')
+# setup and run bot here with token
